@@ -26,44 +26,59 @@
 <h2>
 <a id="box-all-storage-management" class="anchor" href="#box-all-storage-management" aria-hidden="true"><span class="octicon octicon-link"></span></a>Box-All Storage Management</h2>
 
-<p>Box-All Storage in Edmonton is a portable storage bin company. They needed a new system to manage their box inventory, customers, deliveries and invoicing. I had some prior exposure to Ruby, and decided to use Rails for this project. Initially I hosted on Heroku for ease of use, but cost and flexibility led me to use Amazon's Elastic Beanstalk for production in the end. Amazon RDS gave me relatively robust Postgres hosting with backups (I also pull separate backups for Box-All regularly) as well.</p>
+<p>Box-All Storage in Edmonton is a portable storage bin company. They needed a new system to manage their box inventory, customers, deliveries and invoicing. It had to work in the office (and be print-friendly) as well as on mobile for deliveries. I had some prior exposure to Ruby, and decided to use Rails for this project. Initially I hosted on Heroku for ease of use, but cost and flexibility led me to use Amazon's Elastic Beanstalk for production in the end. Amazon RDS gave me relatively robust Postgres hosting with backups (I also pull separate backups for Box-All regularly) as well.</p>
 
 <p>I went back and forth regularly with the Box-All manager to get his feedback on the software until we arrived at something that we were both happy with. I enjoy working directly with someone who uses my work to make life easier, it's very satisfying.</p>
 
-<p>So, here we go. This is the login screen (complete with password reset emails and remembered sessions):
-<img src="/boxall/login.png" alt="boxall login">
-As you can see I am using Bootstrap for layout. A simple, clean interface was the main requirement here.</p>
+<p>So, here we go. This is the login screen (complete with password reset emails and remembered sessions):</p>
 
-<p>After logging in:
-<img src="/boxall/home.png" alt="boxall home">
-On this page we can see how many boxes are in use at a glance, todays deliveries which can be printed for the driver (or any other date by clicking the date), and currently active contracts. These screenshots are all local with fake customer data of course.</p>
+<p><img src="/boxall/login.png" alt="boxall login"></p>
 
-<p>Here is a customer view page, where we can see their info a glance, as well as create new contracts or edit customer data:
-<img src="/boxall/customer.png" alt="boxall customer"></p>
+<p>As you can see I am using Bootstrap for layout. A simple, clean interface was the main requirement here.</p>
 
-<p>Clicking new contract:
-<img src="/boxall/newcontract.png" alt="boxall new contract">
-We can select the start date with jQuery Datepicker, and other options.</p>
+<p>After logging in:</p>
 
-<p>At the bottom of the page we can select from any containers not currently in use:
-<img src="/boxall/contractboxes.png" alt="boxall contract boxes"></p>
+<p><img src="/boxall/home.png" alt="boxall home"></p>
 
-<p>Here is a newly created contract overview:
-<img src="/boxall/contract.png" alt="boxall contract"></p>
+<p>On this page we can see how many boxes are in use at a glance, todays deliveries which can be printed for the driver (or any other date by clicking the date), and currently active contracts. These screenshots are all local with fake customer data of course.</p>
 
-<p>Deliveries are scheduled on contracts. They show up on the home page as above, and also on the deliveries screen:
-<img src="/boxall/deliveries.png" alt="boxall deliveries">
-Each delivery shows the customer last name and number of boxes being delivered. Zero boxes on a delivery is allowed because Box-All often schedules deliveries before they know what boxes will be delivered. Deliveries can be clicked on for more details (such as destination and notes).</p>
+<p>Here is a customer view page, where we can see their info a glance, as well as create new contracts or edit customer data:</p>
 
-<p>Here we can see an overview of who has what. Box-All management specifically requested this feature.
-<img src="/boxall/rationalization.png" alt="boxall rationalization"></p>
+<p><img src="/boxall/customer.png" alt="boxall customer"></p>
 
-<p>Invoices are also generated on contracts:
-<img src="/boxall/invoice.png" alt="boxall invoice"></p>
+<p>Clicking new contract:</p>
 
-<p>The Invoices index page:
-<img src="/boxall/invoices.png" alt="boxall invoices">
-Key features here include:
+<p><img src="/boxall/newcontract.png" alt="boxall new contract"></p>
+
+<p>We can select the start date with jQuery Datepicker, and other options.</p>
+
+<p>At the bottom of the page we can select from any containers not currently in use:</p>
+
+<p><img src="/boxall/contractboxes.png" alt="boxall contract boxes"></p>
+
+<p>Here is a newly created contract overview:</p>
+
+<p><img src="/boxall/contract.png" alt="boxall contract"></p>
+
+<p>Deliveries are scheduled on contracts. They show up on the home page as above, and also on the deliveries screen:</p>
+
+<p><img src="/boxall/deliveries.png" alt="boxall deliveries"></p>
+
+<p>Each delivery shows the customer last name and number of boxes being delivered. Zero boxes on a delivery is allowed because Box-All often schedules deliveries before they know what boxes will be delivered. Deliveries can be clicked on for more details (such as destination and notes).</p>
+
+<p>Here we can see an overview of who has what. Box-All management specifically requested this feature.</p>
+
+<p><img src="/boxall/rationalization.png" alt="boxall rationalization"></p>
+
+<p>Invoices are also generated on contracts:</p>
+
+<p><img src="/boxall/invoice.png" alt="boxall invoice"></p>
+
+<p>The Invoices index page:</p>
+
+<p><img src="/boxall/invoices.png" alt="boxall invoices"></p>
+
+<p>Key features here include:
 -unpaid invoices are marked in red
 -search invoices by month (clicking on 'Search Invoice Month' drops down a jQuery month selector)
 -totals button shows monthly gross invoice totals</p>
