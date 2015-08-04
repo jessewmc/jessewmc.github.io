@@ -21,29 +21,56 @@
 
 <p>I put together this quick demo page of two of my recent projects. Again the code is unfortunately private since these are under contract, but I would be happy to give you a live demo in person and discuss more!</p>
 
+<p>As an aside, my GitHub does have a few public repositories. <a href="https://github.com/jessewmc/rubylife">rubylife</a>, though fairly old now, is the best documented. This was my first Ruby project--a simple implementation of Conway's Game of Life.</p>
+
 <h2>
 <a id="box-all-storage-management" class="anchor" href="#box-all-storage-management" aria-hidden="true"><span class="octicon octicon-link"></span></a>Box-All Storage Management</h2>
 
-<p>Box-All Storage in Edmonton is a portable storage bin company. They needed a new system to manage their box inventory, customers, and invoicing, so I offered to do it. I had some prior exposure to Ruby, and decided to learn rails for this project.</p>
+<p>Box-All Storage in Edmonton is a portable storage bin company. They needed a new system to manage their box inventory, customers, deliveries and invoicing. I had some prior exposure to Ruby, and decided to use Rails for this project. Initially I hosted on Heroku for ease of use, but cost and flexibility led me to use Amazon's Elastic Beanstalk for production in the end. Amazon RDS gave me relatively robust Postgres hosting with backups (I also pull separate backups for Box-All regularly) as well.</p>
 
-<p>Here is the login screen (complete with password reset emails and remembered sessions):
+<p>I went back and forth regularly with the Box-All manager to get his feedback on the software until we arrived at something that we were both happy with. I enjoy working directly with someone who uses my work to make life easier, it's very satisfying.</p>
+
+<p>So, here we go. This is the login screen (complete with password reset emails and remembered sessions):
 <img src="/boxall/login.png" alt="boxall login">
 As you can see I am using Bootstrap for layout. A simple, clean interface was the main requirement here.</p>
 
 <p>After logging in:
 <img src="/boxall/home.png" alt="boxall home">
-On this page we can see how many boxes are in use at a glance, todays deliveries which can be printed for the driver (or any other date by clicking the date), and currently active contracts. Of course all of these customers were generated with Faker.</p>
+On this page we can see how many boxes are in use at a glance, todays deliveries which can be printed for the driver (or any other date by clicking the date), and currently active contracts. These screenshots are all local with fake customer data of course.</p>
 
-<p><img src="/boxall/contract.png" alt="boxall contract">
-<img src="/boxall/box.png" alt="boxall box">
-<img src="/boxall/rationalization.png" alt="boxall rationalization">
-<img src="/boxall/contractboxes.png" alt="boxall contract boxes">
-<img src="/boxall/contractboxesbefore.png" alt="boxall boxes before">
+<p>Here is a customer view page, where we can see their info a glance, as well as create new contracts or edit customer data:
+<img src="/boxall/customer.png" alt="boxall customer"></p>
+
+<p>Clicking new contract:
 <img src="/boxall/newcontract.png" alt="boxall new contract">
-<img src="/boxall/customer.png" alt="boxall customer">
-<img src="/boxall/invoice.png" alt="boxall invoice">
+We can select the start date with jQuery Datepicker, and other options.</p>
+
+<p>At the bottom of the page we can select from any containers not currently in use:
+<img src="/boxall/contractboxes.png" alt="boxall contract boxes"></p>
+
+<p>Here is a newly created contract overview:
+<img src="/boxall/contract.png" alt="boxall contract"></p>
+
+<p>Deliveries are scheduled on contracts. They show up on the home page as above, and also on the deliveries screen:
+<img src="/boxall/deliveries.png" alt="boxall deliveries">
+Each delivery shows the customer last name and number of boxes being delivered. Zero boxes on a delivery is allowed because Box-All often schedules deliveries before they know what boxes will be delivered. Deliveries can be clicked on for more details (such as destination and notes).</p>
+
+<p>Here we can see an overview of who has what. Box-All management specifically requested this feature.
+<img src="/boxall/rationalization.png" alt="boxall rationalization"></p>
+
+<p>Invoices are also generated on contracts:
+<img src="/boxall/invoice.png" alt="boxall invoice"></p>
+
+<p>The Invoices index page:
 <img src="/boxall/invoices.png" alt="boxall invoices">
-<img src="/boxall/deliveries.png" alt="boxall deliveries"></p>
+Key features here include:
+-unpaid invoices are marked in red
+-search invoices by month (clicking on 'Search Invoice Month' drops down a jQuery month selector)
+-totals button shows monthly gross invoice totals</p>
+
+<p>Some other features not highlighted so far: Search for customers (name or phone), boxes, contracts. Print friendly views of contracts and daily deliveries where paper is still necessary. All views are mobile friendly.</p>
+
+<p>All in all a fairly straightforward application, but I'm happy to say that I built it entirely myself and it is currently used in production at Box-All.</p>
 
 <h2>
 <a id="luacam-cnc-macros-and-program-database" class="anchor" href="#luacam-cnc-macros-and-program-database" aria-hidden="true"><span class="octicon octicon-link"></span></a>LuaCAM CNC macros and program database</h2>
