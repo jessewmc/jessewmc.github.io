@@ -93,10 +93,73 @@
 <h2>
 <a id="luacam-cnc-macros-and-program-database" class="anchor" href="#luacam-cnc-macros-and-program-database" aria-hidden="true"><span class="octicon octicon-link"></span></a>LuaCAM CNC macros and program database</h2>
 
-<p><img src="/luacam/searchscreen.png" alt="luacam search">
-<img src="/luacam/searchprogress.png" alt="luacam search progress">
-<img src="/luacam/progdisplay.png" alt="luacam program display">
-<img src="/luacam/luacamcycle.png" alt="luacamcycle"></p>
+<p>I worked as a Machinist at Ensign Energy for a few years. They had some computer controlled machines (a mill and a lathe) but no sophisticated <a href="https://en.wikipedia.org/wiki/Computer-aided_manufacturing">CAM</a> software (like <a href="https://www.mastercam.com/en-us/">MasterCAM</a>). The machines had some built in programming capacity, but it was limited for complex or unusual parts.</p>
+
+<p><a href="http://en.wikipedia.org/wiki/Numerical_control">CNC</a> machines operate on <a href="http://en.wikipedia.org/wiki/G-code">G-code</a>. It looks like this:</p>
+
+<pre><code>G95 G91
+G00 X0.0000 Y0.0000 Z12.0000
+G01 Z10.0000 F0.0040
+G01 X10.0000
+G01 Z10.1000
+G00 X0.0000
+G01 Z9.0000 F0.0040
+G01 X10.0000
+G01 Z9.1000
+G00 X0.0000
+G01 Z8.0000 F0.0040
+G01 X10.0000
+G01 Z8.1000
+G00 X0.0000
+G00 X0.0000 Y0.0000 Z12.0000
+M99
+</code></pre>
+
+<p>Essentially this sets a coordinate system, and line by line tells the machine to move from point to point and in what manner (rapid, slow feed, etc). Of course it is not really a programming language, and it is not Turing complete. It is more like low level positional instruction. There are some macro programming systems built into machines, but they are terrible--for example, the industry standard Fanuc macro system does not have named variables or functions--but it has GOTO.</p>
+
+<p>Modern CAM software is usually hooked up with 3D CAD models, and a graphical interface to generate toolpaths and spit out G-code. I figured if I couldn't do that, at least I could write an expressive macro system with named variables, functions, looping, control structures, and access to mathematical libraries.</p>
+
+<p>Here is the result:</p>
+
+<pre><code>G95 G91
+G00 X0 Y0 Z12
+
+current_depth = 10
+feed = 0.004
+
+for i = current_depth, 8, -1 do
+  clearance = i + 0.1
+  G01 Z$i F$feed
+  G01 X10
+  G01 Z$clearance
+  G00 X0
+end
+
+G00 X0 Y0 Z12
+M99
+</code></pre>
+
+<p>This compiles to the previous G-code program. It is essentially <a href="http://www.lua.org/">lua</a>, in which the system is written, with inline G-code. Of course the examples are similar in length, but I frequently had fifty line macros that output thousands of lines of G-code. The macro system is also far more expressive.</p>
+
+<p>Eventually I got to the point where it was worthwhile to write a GUI so the other Machinists could use my programs:</p>
+
+<p><img src="/luacam/luacamcycle.png" alt="luacamcycle"></p>
+
+<p>We select a program number for the output file (required for the machines), then under 'Macro' we select the program to use. Under 'Variables' various dimensions associated with the macro can be changed without changing the saved macro itself--just the current output to be saved on the machine. In the 'Raw Macro' window we see the macro itself (cannot be edited from here), and finally of course the G-Code output that will be saved and transferred to the machine.</p>
+
+<p>One of the other functions I added to the system was a program database for the machines. The machines themselves did not have any program name, search, or meta-data capacity, so this came in handy for finding and tracking programs:</p>
+
+<p><img src="/luacam/searchscreen.png" alt="luacam search"></p>
+
+<p>Search updates live as the user types:</p>
+
+<p><img src="/luacam/searchprogress.png" alt="luacam search progress"></p>
+
+<p>Clicking on a program displays more information, and notes a user may have made:</p>
+
+<p><img src="/luacam/progdisplay.png" alt="luacam program display"></p>
+
+<p>The whole system runs on Debian Linux (originally Windows as well, but I did not maintain compatibility when I switched). The graphics library is <a href="http://webserver2.tecgraf.puc-rio.br/iup/">IUP</a>, which sits on top of GTK as I used it. The database was a simple SQLite system. Mostly for my own education I did not use an ORM, but instead simple lua bindings via lsqlite, and lua's substantial text handling capabilities to construct queries dynamically.</p>
 
       <footer class="site-footer">
 
